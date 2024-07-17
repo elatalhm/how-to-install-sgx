@@ -12,13 +12,21 @@ The commit date of this file shows how up-to-date these instructions are. I'll t
 
 # Instructions
 1. Subscribe to Intel PCS and get an API key using the instructions [here](https://www.intel.com/content/www/us/en/developer/articles/guide/intel-software-guard-extensions-data-center-attestation-primitives-quick-install-guide.html) under "*Subscribe to the Intel PCS*. Stop following the instructions there once you have your API key.
-2. Install a specific *supported* nodejs version using the instructions [here](https://github.com/nodesource/distributions/wiki/How-to-select-the-Node.js-version-to-install)
+2. Install a specific *supported* nodejs version using the instructions [here](https://github.com/nodesource/distributions/wiki/How-to-select-the-Node.js-version-to-install#instructions-for-debian-systems)
     - Supported nodejs versions at the time of writing are `>= 18.17.0 <= 18.19.1 || >= 20.0.0 <= 20.11.1 || >= 21.0.0 <= 21.5.0`. If you try to install the PCCS package without a supported nodejs version, you'll get an error showing the supported versions in this format. They can also be found [here](https://github.com/intel/SGXDataCenterAttestationPrimitives/blob/main/QuoteGeneration/pccs/README.md#how-to-install)).
     - The reason we need to install nodejs using `apt` is that the `sgx-dcap-pccs` package (which we'll install below) needs it as a requirement, so if we install nodejs some other way (e.g., using the "recommended" methods [here](https://nodejs.org/en/download/package-manager)), it'll pull an old version of nodejs as a dependency. We can probably work around that, but I'd rather keep the installation clean.
 
-3. `sudo apt install cracklib-runtime`
-4. If you don't have `python3` and `build-essential`, install them and make sure `python` points to python3.
-5. Add the Intel SGX package repo to apt:
+    For completeness, I'll put the exact commands I ran (at the time of writing) here:
+    ````bash
+    curl -fsSL https://deb.nodesource.com/setup_20.x -o nodesource_setup.sh
+    sudo -E bash nodesource_setup.sh
+    apt-cache policy nodejs # this will give you a list of available versions
+    sudo apt install nodejs=21.5.0-1nodesource1 # this is the latest 21.x version supported by SGX
+    ````
+    
+4. `sudo apt install cracklib-runtime`
+5. If you don't have `python3` and `build-essential`, install them and make sure `python` points to python3.
+6. Add the Intel SGX package repo to apt:
     ```
     $ sudo su
     # echo 'deb [arch=amd64] https://download.01.org/intel-sgx/sgx_repo/ubuntu focal main' > /etc/apt/sources.list.d/intel-sgx.list
@@ -29,6 +37,6 @@ The commit date of this file shows how up-to-date these instructions are. I'll t
 
     - **IMPORTANT**: Since this link might change (and because you shouldn't trust some random instructions on the internet messing with your apt repos), please double check the link to make sure it's up-to-date from [here (an intel.com page)](https://www.intel.com/content/www/us/en/developer/articles/guide/intel-software-guard-extensions-data-center-attestation-primitives-quick-install-guide.html) under "*Set up the Intel PCCS*". Ignore the rest of the instructions on this page (like ones about nodejs versions); just make sure the repo link is correct.
 
-6. `sudo apt install sqlite3` (not entirely sure this is needed but it's mentioned as a prerequisite in the Intel page above.
-7. `sudo apt install sgx-dcap-pccs`
+7. `sudo apt install sqlite3` (not entirely sure this is needed but it's mentioned as a prerequisite in the Intel page above.
+8. `sudo apt install sgx-dcap-pccs`
     - This will ask you a bunch of questions, including your API key. Good luck.
