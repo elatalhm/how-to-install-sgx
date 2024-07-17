@@ -4,6 +4,9 @@ Intel has old and new instructions for installing SGX lying around leading to so
 # Platform
 I'm running this on Ubuntu 22.04.3 LTS, kernel v5.15. It's a development machine with `build-essential` and `python3` already installed. YMMV.
 
+# Driver
+If you're running on a kernel version >= 5.11, stop. You already have the SGX driver in your kernel. Rejoice. Otherwise, you can try the instructions [here](https://github.com/intel/SGXDataCenterAttestationPrimitives/tree/main/driver/linux) and good luck (the instructions on this page might also not be very useful to you, unfortunately).
+
 # Versions
 The commit date of this file shows how up-to-date these instructions are. I'll try to update whenever possible. I usually refer to instructions/versions elsewhere so this page doesn't become outdated as soon as newer versions of nodejs, sgx, etc. come out.
 
